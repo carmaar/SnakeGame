@@ -1,10 +1,10 @@
-var canvas = document.getElementById("game");
-var this = canvas.getthis("2d");
+let canvas = document.getElementById("game");
+let context = canvas.getContext("2d");
 
-var grid = 16;
-var count = 0;
+let grid = 16;
+let count = 0;
 
-var snake = {
+let snake = {
   x: 160,
   y: 160,
 
@@ -18,7 +18,7 @@ var snake = {
   // length of the snek
   maxCells: 4
 };
-var apple = {
+let food = {
   x: 320,
   y: 320
 };
@@ -33,13 +33,13 @@ function loop() {
   }
 
   count = 0;
-  this.clearRect(0, 0, canvas.width, canvas.height);
+  context.clearRect(0, 0, canvas.width, canvas.height);
 
   // velocity of snek
   snake.x += snake.dx;
   snake.y += snake.dy;
 
-  // wrap the snek 
+  // wrap the snek
   if (snake.x < 0) {
     snake.x += canvas.width - grid;
   } else if (snake.x >= canvas.width) {
@@ -63,26 +63,72 @@ if (snake.cells.length > snake.maxCells) {
 
 // food for snek
 
-this.fillStyle = 'red';
-this.clearRect(food.x, food.y, grid-1, grid-1);
+context.fillStyle = "red";
+context.clearRect(food.x, food.y, grid - 1, grid - 1);
 
 // snek
 
-this.fillStyle = 'green'
+context.fillStyle = "green";
 snake.cells.forEach(function(cells, index) {
+  context.fillRect(cell.x, cell.y, grid - 1, grid - 1);
 
-  this.clearRect(cells.x, cells.y);
-
-  // snek eats food 
-  (cell.x === food.x && cell.y === food.y) {
+  // snek eats food
+  if (cell.x === food.x && cell.y === food.y) {
     snake.maxCells++;
 
-      // reassign food 
-      food.x = getRandomInt(0, 25) * grid;
-      food.y = getRandomInt(0, 25) * grid;
+    // reassign food
+    food.x = getRandomInt(0, 25) * grid;
+    food.y = getRandomInt(0, 25) * grid;
   }
 
-
   // check for collision
-  if 
-}
+  for (let i = index + 1; i < snake.cells.length; i++) {
+    // restart game when snek collides with self
+    if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+      snake.x = 160;
+      snake.y = 160;
+      snake.cells = [];
+      snake.maxCells = 4;
+      snake.dx = grid;
+      snake.dy = 0;
+
+      // reassign food
+      food.x = getRandomInt(0, 25) * grid;
+      food.y = getRandomInt(0, 25) * grid;
+    }
+  }
+});
+
+// controls
+document.addEventListener("keydown", function(e) {
+  // left
+  if (e.which === 37 && snake.dx === 0);
+  {
+    snake.dx = -grid;
+    snake.dy = 0;
+  }
+
+  // up
+  if (e.which === 38 && snake.dy === 0);
+  {
+    snake.dx = 0;
+    snake.dy = -grid;
+  }
+
+  // right
+  if (e.which === 39 && snake.dx === 0);
+  {
+    snake.dx = grid;
+    snake.dy = 0;
+  }
+
+  // down
+  if (e.which === 40 && snake.dy == 0);
+  {
+    snake.dx = 0;
+    snake.dy = grid;
+  }
+});
+
+// start game
+requestAnimationFrame(loop);
