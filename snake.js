@@ -14,6 +14,8 @@ const KEY = {
 	DOWN: 40,
 	SPACE: 32
 };
+
+let pause = false;
 let count = 0;
 
 let snek = {
@@ -32,14 +34,14 @@ let snek = {
 };
 
 let food = {
-	x: 320,
-	y: 320
+	x: 3 * GRID,
+	y: 5 * GRID
 };
 
 // reassign food
 function newFood() {
-	food.x = getRandomInt(0, 25) * GRID;
-	food.y = getRandomInt(0, 25) * GRID;
+	food.x = getRandomInt(0, canvas.width / GRID) * GRID;
+	food.y = getRandomInt(0, canvas.height / GRID) * GRID;
 }
 
 function getRandomInt(min, max) {
@@ -51,7 +53,7 @@ function loop() {
 	requestAnimationFrame(loop);
 
 	// slow framerate - 60 fps to 15 fps (60/15 = 4)
-	if (++count < 4) {
+	if (++count < 4 || pause) {
 		return;
 	}
 
@@ -108,12 +110,12 @@ function loop() {
 		for (let i = index + 1; i < snek.cells.length; i++) {
 			// restart game when snek collides with self
 			if (cell.x === snek.cells[i].x && cell.y === snek.cells[i].y) {
-				snek.x = 160;
-				snek.y = 160;
+				snek.x = SNEK_START_X;
+				snek.y = SNEK_START_Y;
 				snek.cells = [];
 				snek.bodySegments = 4;
-				snek.dx = GRID;
-				snek.dy = 0;
+				snek.dx = SNEK_START_DX;
+				snek.dy = SNEK_START_DY;
 
 				console.log(":(");
 
@@ -127,24 +129,29 @@ function loop() {
 // controls
 document.addEventListener("keydown", function (e) {
 	// left
-	if (e.which === 37 && snek.dx === 0) {
+	if (e.which === KEY.LEFT && snek.dx === 0) {
 		snek.dx = -GRID;
 		snek.dy = 0;
 	}
 	// up
-	else if (e.which === 38 && snek.dy === 0) {
+	else if (e.which === KEY.UP && snek.dy === 0) {
 		snek.dy = -GRID;
 		snek.dx = 0;
 	}
 	// right
-	else if (e.which === 39 && snek.dx === 0) {
+	else if (e.which === KEY.RIGHT && snek.dx === 0) {
 		snek.dx = GRID;
 		snek.dy = 0;
 	}
 	// down
-	else if (e.which === 40 && snek.dy === 0) {
+	else if (e.which === KEY.DOWN && snek.dy === 0) {
 		snek.dy = GRID;
 		snek.dx = 0;
+	}
+	// space
+	else if (e.which === KEY.SPACE) {
+		pause = !pause;
+		console.log('Game paused');
 	}
 });
 
