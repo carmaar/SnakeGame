@@ -13,11 +13,30 @@
       background-color: black;
       border: 1px solid white;
     }
+
+    header {
+      width: 640px;
+    }
+
+    #title,
+    #foodEaten {
+      font-size: 2em;
+      text-transform: uppercase;
+      font-family: 'Courier New', Courier, monospace;
+      margin: auto;
+    }
   </style>
 </head>
 
 <body>
-  <canvas id="game" height="500" width="500"> </canvas>
+  <canvas id="game" height="640" width="640">
+  </canvas>
+
+  <header>
+    <div id="title">Go noodle go!</div>
+    <div id="foodEaten">Food eaten: 0</div>
+  </header>
+
   <script src="snake.js"></script>
 </body>
 

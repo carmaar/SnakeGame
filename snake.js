@@ -15,6 +15,7 @@ const KEY = {
 	SPACE: 32
 };
 
+let foodEaten = 0;
 let pause = false;
 let count = 0;
 
@@ -38,10 +39,23 @@ let food = {
 	y: 5 * GRID
 };
 
+//  ---------------------------- FUNCTIONS ------------------------------------- 
+
 // reassign food
 function newFood() {
 	food.x = getRandomInt(0, canvas.width / GRID) * GRID;
 	food.y = getRandomInt(0, canvas.height / GRID) * GRID;
+}
+
+// food counter
+function iterateFoodCounter() {
+	foodEaten++;
+	document.getElementById('foodEaten').innerHTML = 'Food eaten: ' + foodEaten;
+}
+// reset food
+function resetFoodCounter() {
+	foodEaten = 0;
+	document.getElementById('foodEaten').innerHTML = 'Food eaten: ' + foodEaten;
 }
 
 function getRandomInt(min, max) {
@@ -96,6 +110,7 @@ function loop() {
 		// snek eats food
 		if (cell.x === food.x && cell.y === food.y) {
 			snek.bodySegments++;
+			iterateFoodCounter();
 			console.log(":D");
 
 			// reassign food
@@ -118,6 +133,7 @@ function loop() {
 				snek.dy = SNEK_START_DY;
 
 				console.log(":(");
+				resetFoodCounter();
 
 				// reassign food
 				newFood();
@@ -150,6 +166,7 @@ document.addEventListener("keydown", function (e) {
 	}
 	// space
 	else if (e.which === KEY.SPACE) {
+		document.getElementById('title').innerHTML = pause ? 'Game on!' : 'Paused';
 		pause = !pause;
 		console.log('Game paused');
 	}
