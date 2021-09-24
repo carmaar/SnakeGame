@@ -6,7 +6,7 @@ const SNEK_START_X = 10 * GRID;
 const SNEK_START_Y = 10 * GRID;
 const SNEK_START_DX = GRID;
 const SNEK_START_DY = 0;
-const SNEK_START_BODY_SEGMENTS = 4;
+const SNEK_START_BODY_SEGMENTS = 2;
 const KEY = {
 	LEFT: 37,
 	UP: 38,
